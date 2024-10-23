@@ -1,0 +1,65 @@
+# -*- coding: utf-8 -*-
+"""
+    Main file to run the API
+"""
+from pprint import pprint
+
+
+# --------------------------------------------------------------------------
+# Função para o algoritmo de Quick Sort
+# --------------------------------------------------------------------------
+def quick_sort(arr):
+    global passos
+    passos += 1
+
+
+    if len(arr) <= 1:
+        print(f"Passo {passos}: Array já ordenado ou vazio: {arr}")
+        return arr
+
+    pivo = arr[len(arr) // 2]
+    esquerda = [x for x in arr if x < pivo]
+    meio = [x for x in arr if x == pivo]
+    direita = [x for x in arr if x > pivo]
+
+    print(f"Passo {passos}: Pivô={pivo}, Esquerda={esquerda}, Meio={meio}, Direita={direita}")
+
+    arr_ordenado = quick_sort(esquerda) + meio + quick_sort(direita)
+
+
+    print(f"Estado atual do array (parcial): {arr_ordenado}")
+
+
+    return arr_ordenado
+
+"""
+Não foi possivel tornar visivel com perfeição cada passo do algoritmo por se tratar de um conjunto de listas
+complexos e que apenas dificultariam na compreensão da logica.
+"""
+
+
+# --------------------------------------------------------------------------
+# Mostrar Resultados
+# --------------------------------------------------------------------------
+def mostrar_resultado(arr):
+    print("Array Ordenado:")
+    for i in range(0, len(arr), 30):
+        print(arr[i : i + 30])
+    print("Nro de Passos:", passos)
+
+def carregar_array():
+    arr = []
+    with open("array.csv", "r") as f:
+        for line in f:
+            arr.append(int(line))
+    return arr
+
+
+# --------------------------------------------------------------------------
+# Principal
+# --------------------------------------------------------------------------
+if __name__ == "__main__":
+    arr = carregar_array()
+    passos = 0
+    arr_ordenado = quick_sort(arr)
+    mostrar_resultado(arr_ordenado)
